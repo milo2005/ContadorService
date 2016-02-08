@@ -1,5 +1,6 @@
 package com.example.estacionvl_tc_014.servicios.services;
 
+import android.app.Notification;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Handler;
@@ -7,6 +8,7 @@ import android.os.HandlerThread;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
+import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
 import com.example.estacionvl_tc_014.servicios.receivers.ContadorReceiver;
@@ -37,6 +39,7 @@ public class ContadorService extends Service {
 
         if(intent.getAction().equals(ACTION_STOP)){
             running = false;
+            stopForeground(true);
             stopSelf();
         }else if(intent.getAction().equals(ACTION_PAUSE)){
             paused = true;
@@ -49,11 +52,21 @@ public class ContadorService extends Service {
                 Message msg =  contadorHandler.obtainMessage();
                 msg.obj = intent;
                 contadorHandler.sendMessage(msg);
+                setForeground();
             }
 
 
         }
         return START_REDELIVER_INTENT;
+    }
+
+    private void setForeground() {
+        Notification notification = new NotificationCompat.Builder(this)
+                .setContentText("Contando ...")
+                .setContentTitle("Contador")
+                .setSmallIcon(android.R.drawable.ic_media_play)
+                .build();
+        startForeground(101,notification);
     }
 
     @Override
