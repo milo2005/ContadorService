@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Servicios</string>
+    <string name="seconds_empty">00</string>
 </resources>
