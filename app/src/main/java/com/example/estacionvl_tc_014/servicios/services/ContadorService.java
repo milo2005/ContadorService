@@ -9,6 +9,8 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 
+import com.example.estacionvl_tc_014.servicios.receivers.ContadorReceiver;
+
 public class ContadorService extends Service {
 
     public static final String ACTION_START="start";
@@ -75,6 +77,11 @@ public class ContadorService extends Service {
                     Thread.sleep(1000);
                     if(!paused) {
                         seconds++;
+
+                        Intent intent = new Intent(ContadorReceiver.ACTION_CONTADOR);
+                        intent.putExtra(ContadorReceiver.EXTRA_SECONDS, seconds);
+                        sendBroadcast(intent);
+
                         Log.i("Segundos", "Segundos:" + seconds);
                     }
                 } catch (InterruptedException e) {
